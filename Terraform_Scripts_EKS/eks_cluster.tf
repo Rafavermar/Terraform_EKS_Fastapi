@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "eks" {
-  name     = "pc-eks"
+  name     = "RVM-eks"
   role_arn = aws_iam_role.master.arn
 
 

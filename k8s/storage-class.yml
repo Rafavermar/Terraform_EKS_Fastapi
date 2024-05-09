@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  fileSystemId: "fs-04747cf162437160d"
+  provisioningMode: "efs-ap"
+  directoryPerms: "0755"
+  basePath: "/data"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer

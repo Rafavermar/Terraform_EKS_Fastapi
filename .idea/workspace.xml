@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a564d3e-ff45-40b9-a461-928a737b849d" name="Changes" comment="" />
+    <list default="true" id="6a564d3e-ff45-40b9-a461-928a737b849d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Terraform_EKS_Fastapi.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/.terraform.lock.hcl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/efs-csi-driver-trust-policy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/efs_mount_targets.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/eks_cluster.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/eks_node_group.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/iam_role.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/internetgw.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/main.tfplan" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/provider.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/rout.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/sg.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/subnet.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/vpc.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/books/app/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/books/app/data/books.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/books/app/src/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/books/app/src/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/clients/app/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/clients/app/data/clients.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/clients/app/src/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/clients/app/src/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/app/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/app/conf.d/gateway-conf/main.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/app/conf.d/main.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/app/src/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/app/src/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/books-data-pvc.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/books-deployment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/clients-data-pvc.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/clients-deployment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/gateway-conf/main.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/gateway-deployment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/ingress-limiter.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/sa.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/storage-class.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,13 +61,16 @@
   "associatedIndex": 6
 }]]></component>
   <component name="ProjectId" id="2gDiTuDmKEMfgbEss8fX7raiZpY" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master"
@@ -43,5 +93,8 @@
       <updated>1715238560072</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

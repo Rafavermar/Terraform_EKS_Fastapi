@@ -1,6 +1,6 @@
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
+  description = "Allow TLS and NFS inbound traffic"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -9,6 +9,14 @@ resource "aws_security_group" "allow_tls" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "NFS from VPC"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {

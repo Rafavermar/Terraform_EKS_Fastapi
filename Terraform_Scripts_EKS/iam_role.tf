@@ -1,6 +1,5 @@
 resource "aws_iam_role" "master" {
-  name = "ed-eks-master"
-
+  name = "rvm-eks-master"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -33,8 +32,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
 }
 
 resource "aws_iam_role" "worker" {
-  name = "ed-eks-worker"
-
+  name = "rvm-eks-worker"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -52,7 +50,7 @@ POLICY
 }
 
 resource "aws_iam_policy" "autoscaler" {
-  name   = "ed-eks-autoscaler-policy"
+  name   = "rvm-eks-autoscaler-policy"
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -73,7 +71,33 @@ resource "aws_iam_policy" "autoscaler" {
   ]
 }
 EOF
+}
 
+resource "aws_iam_policy" "efs_policy" {
+  name        = "rvm-eks-efs-policy"
+  description = "EFS access for EKS workers"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticfilesystem:ClientMount",
+        "elasticfilesystem:ClientWrite",
+        "elasticfilesystem:DescribeFileSystems",
+        "elasticfilesystem:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "efs_policy_attachment" {
+  role       = aws_iam_role.worker.name
+  policy_arn = aws_iam_policy.efs_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
@@ -100,6 +124,7 @@ resource "aws_iam_role_policy_attachment" "x-ray" {
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
   role       = aws_iam_role.worker.name
 }
+
 resource "aws_iam_role_policy_attachment" "s3" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
   role       = aws_iam_role.worker.name
@@ -110,8 +135,43 @@ resource "aws_iam_role_policy_attachment" "autoscaler" {
   role       = aws_iam_role.worker.name
 }
 
+
+
 resource "aws_iam_instance_profile" "worker" {
   depends_on = [aws_iam_role.worker]
-  name       = "ed-eks-worker-new-profile"
+  name       = "rvm-eks-worker-new-profile"
   role       = aws_iam_role.worker.name
+}
+
+resource "aws_iam_role" "efs_csi_driver" {
+  name               = "AmazonEKS_EFS_CSI_DriverRole"
+  assume_role_policy = file("efs-csi-driver-trust-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "efs_csi_driver_policy" {
+  role       = aws_iam_role.efs_csi_driver.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+}
+
+resource "aws_iam_policy" "eks_worker_additional_permissions" {
+  name        = "eks-worker-additional-permissions"
+  description = "Additional permissions for EKS workers"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ec2:DescribeAvailabilityZones"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_worker_additional_permissions_attachment" {
+  role       = aws_iam_role.worker.name
+  policy_arn = aws_iam_policy.eks_worker_additional_permissions.arn
 }
