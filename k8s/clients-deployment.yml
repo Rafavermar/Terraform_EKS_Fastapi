@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clients-api
+  annotations:
+    description: "API in charge of interacting with the clients."
+  labels:
+    app: clients
+    service: clients-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: clients
+      service: clients-api
+  template:
+    metadata:
+      labels:
+        app: clients
+        service: clients-api
+    spec:
+      containers:
+        - name: api
+          env:
+          - name: DATA_FILE
+            value: /data/clients.csv
+          image: jrvm/books-clients-api:1.0.0
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+          - mountPath: /data
+            name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: clients-data
+

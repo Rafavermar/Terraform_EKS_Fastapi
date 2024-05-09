@@ -1,0 +1,3 @@
+url:
+ clients: "http://clients-api:8000"
+ books: "http://books-api:8000"

@@ -1,0 +1,11 @@
+"id","title","author","basic_discount","premium_discount"
+1,"Rayuela","Julio Cortázar",0.10,0.15
+2,"El Aleph","Jorge Luis Borges",0,0.05
+3,"Cien años de soledad","Gabriel García Márquez",0,0
+4,"Ulises","James Joyce",0.05,0.10
+5,"2666","Roberto Bolaño",0.10,0.15
+6,"Ensayo sobre la ceguera","José Saramago",0.20,0.45
+7,"El nombre del viento","Patrick Rothfuss",0.15,0.20
+8,"Fundación","Isaac Asimov",0.10,0.15
+9,"El poder del perro","Don Winslow",0.35,0.40
+10,"Lolita","Vladimir Nabokov",0.22,0.30

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-api
+  annotations:
+    description: "API in charge of interacting with the books."
+  labels:
+    app: books
+    service: books-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: books
+      service: books-api
+  template:
+    metadata:
+      labels:
+        app: books
+        service: books-api
+    spec:
+      containers:
+        - name: api
+          env:
+            - name: DATA_FILE
+              value: /data/books.csv
+          image: jrvm/books-books-api:1.0.0
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+          - mountPath: /data
+            name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: books-data

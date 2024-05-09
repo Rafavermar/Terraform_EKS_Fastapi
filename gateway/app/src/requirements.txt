@@ -1,0 +1,5 @@
+fastapi
+pydantic
+uvicorn
+requests==2.31.0
+PyYAML==6.0.1

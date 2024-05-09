@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-api
+  annotations:
+    description: "Gateway that interacts with client and book APIS."
+  labels:
+    app: books
+    service: gateway-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: books
+      service: gateway-api
+  template:
+    metadata:
+      labels:
+        app: books
+        service: gateway-api
+    spec:
+      containers:
+        - name: api
+          env:
+            - name: CONFIG_PATH
+              value: "/etc/config/main.yml"
+          image: jrvm/books-gateway-api:1.0.0
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: config
+              mountPath: /etc/config
+      volumes:
+        - name: config 
+          configMap:
+            name: books-gateway-conf
