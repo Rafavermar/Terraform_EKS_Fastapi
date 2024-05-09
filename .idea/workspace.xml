@@ -4,51 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a564d3e-ff45-40b9-a461-928a737b849d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Terraform_EKS_Fastapi.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/.terraform.lock.hcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/efs-csi-driver-trust-policy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/efs_mount_targets.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/eks_cluster.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/eks_node_group.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/iam_role.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/internetgw.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/main.tfplan" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/provider.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/rout.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/sg.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/subnet.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Terraform_Scripts_EKS/vpc.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books/app/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books/app/data/books.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books/app/src/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books/app/src/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/app/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/app/data/clients.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/app/src/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/app/src/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/app/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/app/conf.d/gateway-conf/main.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/app/conf.d/main.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/app/src/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/app/src/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/books-data-pvc.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/books-deployment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/clients-data-pvc.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/clients-deployment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/gateway-conf/main.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/gateway-deployment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/ingress-limiter.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/sa.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/storage-class.yml" afterDir="false" />
-    </list>
+    <list default="true" id="6a564d3e-ff45-40b9-a461-928a737b849d" name="Changes" comment="COMMIT" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,9 +48,20 @@
       <option name="presentableId" value="Default" />
       <updated>1715238560072</updated>
     </task>
+    <task id="LOCAL-00001" summary="COMMIT">
+      <option name="closed" value="true" />
+      <created>1715295766803</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715295766803</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="COMMIT" />
+    <option name="LAST_COMMIT_MESSAGE" value="COMMIT" />
   </component>
 </project>
