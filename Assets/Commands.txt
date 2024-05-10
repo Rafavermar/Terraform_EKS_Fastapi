@@ -1,0 +1,304 @@
+
+===============================================================================================================================================================================================================================
+A] Prerequisites
+https://aws.amazon.com/cli/
+https://code.visualstudio.com/download
+https://learn.microsoft.com/en-us/azure/developer/terraform/configure-vs-code-extension-for-terraform?tabs=azure-cli
+https://developer.hashicorp.com/terraform/install
+https://kubernetes.io/releases/download/ 
+
+==========================================================================================================================================================
+
+# Create an IAM user in the aws console in the corresponding region to start the aws CLI
+
+username:
+username00
+
+pwd:
+password00
+=================================
+
+# Log in with the user into aws CLI from the terminal in your Project directory
+
+aws configure
+
+Access key:
+AKIA4MTWJJZGHGK7UB4U
+
+secret key:
+n1WFjIf/cp9eaaYiKcTBa0jn4yCBiciDw3OIE5ju 
+
+===================================
+========================================================================================================================================================
+
+B] Implement the Terraform code and Create Resources using Terraform 
+
+terraform init -upgrade
+terraform validate
+terraform plan -out main.tfplan
+terraform apply main.tfplan
+
+==================================================================================================================================================================================================================================================================================================================
+
+C] Verify results
+
+# Go to aws portal and navigate to Elastic kubernetes services and observe the created kubernetes cluster.
+
+# Connect aws CLI to the Kubernetes cluster
+aws eks --region <region-code> update-kubeconfig --name <cluster-name>
+aws eks --region us-west-2 update-kubeconfig --name RVM-eks
+
+
+kubectl get nodes
+
+==================================================================================================================================================================================================================================================================================================================
+
+D] CONFIGURING THE INTEGRATION OF NFS AND ELASTIC FILE SYSTEM INTO THE CLUSTER
+
+Modifications to include NFS [see vpc.tf and sg.tf] --> resource "aws_efs_file_system" "my_efs"
+
+## To include IAM policies that allow your worker nodes to interact with EFS through the EFS CSI controller, you should add them in a Terraform file. This will allow you to manage policies in a consistent and automated way along with the rest of your AWS infrastructure.
+
+Check iam_role.tf file to know how an EFS-specific IAM policy was added.
+
+====================================================================================================================================================================================================================================================================================================================
+E] Installing AWS-EFS-CSI-DRIVER lastest VERSION INTO KUBERNETES CLUSTER V.2.19
+
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+helm repo update
+helm upgrade --install aws-efs-csi-driver --namespace kube-system aws-efs-csi-driver/aws-efs-csi-driver
+
+
+kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver"
+
+
+==================================================================================================================================================================================================================================================================================================================
+
+F] Deploy microservices FASTAPI apps for books and clients, related through an api gateway with personalized endpoints
+
+# Docker image building and pushing to dockerhub
+
+docker login
+docker build . -t jrvm/books-books-api:1.0.0
+docker push jrvm/books-books-api:1.0.0
+
+docker build . -t jrvm/books-clients-api:1.0.0
+docker push jrvm/books-clients-api:1.0.0
+
+docker build . -t jrvm/books-gateway-api:1.0.0
+docker push jrvm/books-gateway-api:1.0.0
+
+==============================================================================
+
+kubectl get pods -n kube-system # check the correct intstalation of the driver
+
+kubectl create -f books-data-pvc.yml
+kubectl create -f books-deployment.yml
+
+kubectl create -f clients-data-pvc.yml
+kubectl apply -f clients-deployment.yml
+
+kubectl get pvc
+kubectl describe pvc books-data
+kubectl get deployment
+
+kubectl apply -f storage-class.yml
+kubectl get storageclass
+kubectl describe storageclass efs-sc
+
+
+kubectl get po
+kubectl describe pod books-api-689c477fc5-pl8z6 # exploring one pod
+
+
+# Check the successfully created storageClass efs-sc configuration
+
+kubectl logs -n kube-system -l app=efs-csi-node
+kubectl logs -n kube-system -l app=efs-csi-controller
+
+===========================================
+
+## Scan a pod to confirm volume provisioning.
+## we see that the csv is not there, so we have to copy it inside
+
+kubectl exec -it books-api-7f8579d85b-k7998 -- /bin/bash
+> df -h
+> ls /data
+> exit
+
+
+===============================
+=========== LINUX =============
+### from directory: \books\app\data
+sudo kubectl cp books.csv books-api-7f8579d85b-k7998:/data/
+
+chown root:root books.csv
+kubectl cp books.csv books-api-7f8579d85b-k7998:/data/
+
+
+==============================
+======== POWERSHELL ==========
+### from directory: \books\app\data
+Start-Process kubectl -ArgumentList "cp books.csv books-api-7f8579d85b-k7998:/data/" -Verb RunAs
+
+
+## check that the file has been copied
+kubectl exec -it books-api-7f8579d85b-k7998 -- /bin/bash
+> df -h
+> ls /data
+> exit
+
+===========================================================================================
+# Check and test the endpoint for the Book services locally by forwarding port to localhost
+
+## portforward to localhost to check the operation of the service
+kubectl port-forward books-api-7f8579d85b-k7998 8080:8000
+
+## now from the browser:
+http://localhost:8080/docs
+
+
+## We see that everything works and now we expose the service internally to the cluster and by default Kubernetes will create a service of type cluster ip, the service is only visible from the internal Kubernetes network.
+
+kubectl expose deploy books-api --port 8000
+kubectl get svc
+
+===========================================
+
+## Scan a pod to confirm volume provisioning.
+## we see that the csv is not there, so we have to copy it inside
+
+kubectl get deployment
+kubectl get po
+kubectl exec -it clients-api-98b79bd4f-5jjfz -- /bin/bash
+> df -h
+> ls /data
+> exit
+
+===============================
+=========== LINUX =============
+### from directory: \clients\app\data
+sudo kubectl cp clients.csv clients-api-98b79bd4f-5jjfz:/data/:/data/
+
+chown root:root books.csv
+kubectl cp clients.csv clients-api-98b79bd4f-5jjfz:/data/
+
+
+==============================
+======== POWERSHELL ==========
+### from directory: \clients\app\data
+Start-Process kubectl -ArgumentList "cp clients.csv clients-api-98b79bd4f-5jjfz:/data/" -Verb RunAs
+
+
+
+## check that the file has been copied
+kubectl exec -it clients-api-98b79bd4f-wbm4q -- /bin/bash
+> df -h
+> ls /data
+> exit
+
+==============================================================================================
+# Check and test the endpoint for the Client services locally by forwarding port to localhost
+
+## portforward to localhost to check the operation of the service
+kubectl port-forward clients-api-98b79bd4f-5jjfz 8080:8000
+
+## now from the browser:
+http://localhost:8080/docs
+
+
+## We see that everything works and now we expose the service internally to the cluster and by default Kubernetes will create a service of type cluster ip, the service is only visible from the internal Kubernetes network.
+
+kubectl expose deploy clients-api --port 8000
+kubectl get deploy
+kubectl get service
+kubectl get pods
+
+==============================================================================================
+# Creating and deploying Gateway (loadbalancer)
+
+## A clearer directory is created to collect the file to be used in the configmap. Aiming at ..gateway\app\conf.d
+New-Item -ItemType Directory -Path .\gateway-conf
+Copy-Item -Path main.yml -Destination .\gateway-conf\
+
+
+kubectl create cm books-gateway-conf --from-file gateway-conf/
+kubectl get cm
+kubectl get cm books-gateway-conf -o yaml
+
+kubectl create -f gateway-deployment.yml
+kubectl get deploy
+
+==============================
+=========== LINUX =============
+kubectl get pod | grep gatewa
+
+==============================
+======== POWERSHELL ==========
+kubectl get pod | ? { $_ -match "gateway" }
+
+
+## Expose the gateway as a loadbalancer object. Since it is an EKS cluster, AWS will provide the external IP
+
+kubectl expose deploy gateway-api --port 8000 --type LoadBalancer
+kubectl get svc
+
+OUTPUT EXAMPLE:
+====================
+default       gateway-api   LoadBalancer   172.20.245.238   a037e13aa7b73411990e3e08c558f2b4-1024244124.us-west-2.elb.amazonaws.com   8000:32156/TCP           33m
+======================
+
+## copy external IP and paste it in the browser like this:
+http://a037e13aa7b73411990e3e08c558f2b4-1024244124.us-west-2.elb.amazonaws.com:8000/docs
+
+==================================================================================================================================================================================================================================================================================================================
+
+G] DEPLOY NGINX INGRESS LIMITER CONFIGURATION (.YML) WITHIN THE CLUSTER
+
+# 1. add bitnami to the Helm repo
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+
+# 2. Install NGINX ingress controller
+
+helm install my-nginx bitnami/nginx-ingress-controller --set rbac.create=true
+
+# 3. Deploy congif in EKS
+
+kubectl apply -f ingress-limiter.yml
+
+kubectl get ingress
+
+kubectl logs -n <namespace> -l app=nginx-ingress --tail=100
+
+kubectl logs -f <pod-name> -n <namespace>
+
+==================================================================================================================================================================================================================================================================================================================
+
+H] Cleanup
+
+kubectl rollout restart deployment books-api
+kubectl delete -f books-deployment.yml
+kubectl delete storageclass efs-sc
+kubectl delete pvc books-data
+kubectl delete pvc clients-data
+
+kubectl delete ingress gateway-api-ingress
+kubectl delete deployment gateway-api
+kubectl delete deployment clients-api
+kubectl delete deployment books-api
+kubectl delete service/clients-api
+kubectl delete service/gateway-api
+kubectl delete service/books-api
+kubectl delete ingress gateway-api-ingress
+
+kubectl get all
+
+terraform destroy -auto-approve
+
+terraform plan -destroy -out main.destroy.tfplan 
+
+terraform apply "main.destroy.tfplan"
+
