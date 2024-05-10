@@ -67,7 +67,17 @@ Before you start, make sure you have installed and configured the following tool
      kubectl apply -f clients-deployment.yml
      ```
 
-### Step 3: ConfigMap Configuration
+### Step 3: AWS EFS Integration with Kubernetes
+
+1. **Install the AWS EFS CSI Driver:**
+   - Use Helm to install the AWS EFS CSI driver which enables Kubernetes to manage EFS file systems efficiently:
+     ```bash
+     helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+     helm repo update
+     helm upgrade --install aws-efs-csi-driver --namespace kube-system aws-efs-csi-driver/aws-efs-csi-driver
+     ```
+
+### Step 4: ConfigMap Configuration
 
 1. **Setup ConfigMaps:**
    - Create a directory for configuration files:
@@ -84,7 +94,7 @@ Before you start, make sure you have installed and configured the following tool
      kubectl create -f gateway-deployment.yml
      ```
 
-### Step 4: Service Exposure and Load Balancing
+### Step 5: Service Exposure and Load Balancing
 
 1. **Internal Exposure Using ClusterIP:**
    - Expose each microservice internally:
@@ -103,7 +113,7 @@ Before you start, make sure you have installed and configured the following tool
      http://<external-ip>:8000/docs
      ```
 
-### Step 5: Implementing NGINX Ingress Controller and Ingress Rules
+### Step 6: Implementing NGINX Ingress Controller and Ingress Rules
 
 - **Installing NGINX Ingress Controller**
   - Using Helm to install:
@@ -127,4 +137,3 @@ Before you start, make sure you have installed and configured the following tool
 ## Additional Resources
 
 - For a complete list of commands used and step-by-step guidance, check the `assets` folder where you can find the `commands.txt` and a detailed PDF.
-
